@@ -38,7 +38,12 @@ struct ForEachUITests {
         openSwiftUIAssertSnapshot(of: ContentView())
     }
 
-    @Test
+    @Test(
+        .bug(
+            "https://github.com/OpenSwiftUIProject/OpenSwiftUI/issues/632",
+            id: 632
+        )
+    )
     func insertAnimation() {
         struct ContentView: AnimationTestView {
             nonisolated static var model: AnimationTestModel {
@@ -60,9 +65,8 @@ struct ForEachUITests {
                 }
             }
         }
-        withKnownIssue("#632") {
-            Issue.record("AttributeGraph precondition failure: accessing attribute in a different namespace: 36376.")
-            // openSwiftUIAssertAnimationSnapshot(of: ContentView())
+        withKnownIssue("#632", isIntermittent: true) {
+            openSwiftUIAssertAnimationSnapshot(of: ContentView())
         }
     }
 
